@@ -1,0 +1,18 @@
+/* PrimeIcons */
+@import 'primeicons/primeicons.css';
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-family);
+  background: var(--surface-50);
+}
+
+.container {
+  max-width: 720px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}

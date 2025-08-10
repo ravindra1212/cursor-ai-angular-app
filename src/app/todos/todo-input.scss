@@ -1,0 +1,206 @@
+.input-container {
+  margin: 0rem 0 3rem;
+  background: var(--surface-card);
+  border-radius: 10px;
+  border: 1px solid var(--surface-200);
+  position: relative;
+  overflow: visible;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.05), transparent);
+    animation: shimmer 3s infinite;
+  }
+  
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 10px;
+    padding: 2px;
+    background: var(--primary-color);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  
+  &:hover::after {
+    opacity: 1;
+  }
+}
+
+
+
+
+
+.input-row {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+  align-items: center;
+  width: 100%;
+}
+
+@keyframes shimmer {
+  0% { left: -100%; }
+  100% { left: 100%; }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+@keyframes slideIn {
+  0% { 
+    opacity: 0;
+    transform: translateY(30px) scale(0.9);
+  }
+  100% { 
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.input-wrapper {
+  flex: 1;
+  position: relative;
+  
+  .input-glow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 10px;
+    background: rgba(59, 130, 246, 0.1);
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    pointer-events: none;
+    z-index: 1;
+    filter: blur(4px);
+    transform: scale(1);
+  }
+}
+
+.animated-input {
+  width: 100%;
+  height: 70px;
+  font-size: 1.3rem;
+  padding: 0 2rem;
+  border: 1px solid var(--surface-200);
+  border-radius: 10px;
+  background: var(--surface-card);
+  color: var(--text-color);
+  font-weight: 600;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.06), 0 4px 10px rgba(0,0,0,0.06);
+  position: relative;
+  z-index: 2;
+  
+  &::placeholder {
+    color: var(--text-color-secondary, #9ca3af);
+    font-weight: 500;
+    font-size: 1.2rem;
+    opacity: 0.8;
+    transition: all 0.3s ease;
+  }
+  
+  &:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    background: var(--surface-card);
+    transform: scale(1.02) translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.12), 0 6px 15px rgba(0,0,0,0.08);
+    
+    & + .input-glow {
+      opacity: 1;
+      transform: scale(1.05);
+      filter: blur(6px);
+    }
+    
+    &::placeholder {
+      transform: translateX(10px);
+      opacity: 0.6;
+    }
+  }
+  
+  &:hover {
+    transform: translateY(-2px);
+    border-color: var(--primary-color);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.12), 0 6px 15px rgba(0,0,0,0.08);
+  }
+  
+  &:not(:placeholder-shown) {
+    border-color: var(--primary-color);
+    background: var(--surface-card);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.06), 0 4px 10px rgba(0,0,0,0.06);
+  }
+}
+
+.animated-button {
+  height: 70px;
+  min-width: 150px;
+  font-size: 1.3rem;
+  font-weight: 700;
+  border-radius: 10px;
+  background: #10b981 !important;
+  border: 2px solid #10b981 !important;
+  color: white !important;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.06), 0 4px 10px rgba(0,0,0,0.06);
+  position: relative;
+  overflow: hidden;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  display: inline-block;
+  z-index: 10;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    transition: left 0.6s ease;
+  }
+  
+  &:hover {
+    transform: translateY(-2px) scale(1.05);
+    background: #059669 !important;
+    border-color: #059669 !important;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.12), 0 6px 15px rgba(0,0,0,0.08);
+    
+    &::before {
+      left: 100%;
+    }
+  }
+  
+  &:active {
+    transform: translateY(0) scale(0.98);
+    background: #047857 !important;
+    border-color: #047857 !important;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3), 0 4px 16px rgba(0,0,0,0.1);
+  }
+  
+  &:focus {
+    outline: none;
+    background: #059669 !important;
+    border-color: #059669 !important;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.12), 0 6px 15px rgba(0,0,0,0.08);
+  }
+}
+
+

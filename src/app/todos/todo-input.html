@@ -1,0 +1,31 @@
+<div class="input-container" [@inputEnter]>
+  <div class="input-row">
+    <div class="input-wrapper">
+      <input
+        type="text"
+        pInputText
+        placeholder="✨ What would you like to accomplish today?"
+        [ngModel]="title()"
+        (ngModelChange)="title.set($event)"
+        (keydown.enter)="add()"
+        (focus)="onFocus()"
+        (blur)="onBlur()"
+        [@inputFocus]="isFocused() ? 'focused' : 'unfocused'"
+        class="animated-input"
+        autocomplete="off"
+      />
+      <div class="input-glow"></div>
+    </div>
+    
+    <button 
+      type="button" 
+      (click)="add()"
+      [@buttonPulse]
+      class="animated-button"
+      style="background: #10b981 !important; color: white !important; border: 2px solid #10b981 !important; padding: 0 2rem;"
+    >
+      <i class="pi pi-plus"></i>
+      Add Task
+    </button>
+  </div>
+</div>

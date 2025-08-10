@@ -1,0 +1,38 @@
+.app-header {
+  text-align: center;
+  margin: 1rem 0 1.5rem;
+  font-weight: 600;
+  font-size: 1.75rem;
+  letter-spacing: 0.2px;
+  color: var(--text-color, #1f2937);
+  position: relative;
+  
+  &::after {
+    content: '';
+    display: block;
+    width: 0;
+    height: 3px;
+    margin: 0.5rem auto 0;
+    border-radius: 9999px;
+    background: linear-gradient(90deg, var(--primary-color, #3b82f6), var(--primary-600, #2563eb));
+    animation: expandWidth 1s ease-out 1s forwards;
+  }
+}
+
+@keyframes expandWidth {
+  to {
+    width: 64px;
+  }
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+:host {
+  display: block;
+  min-height: 100vh;
+  background: var(--surface-ground, #f8f9fa);
+}

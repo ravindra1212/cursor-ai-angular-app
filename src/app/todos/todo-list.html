@@ -1,0 +1,56 @@
+<div class="toolbar" *ngIf="(todos() || []).length > 0" [@toolbarAnimation]>
+  <span class="remaining"><i class="pi pi-list-check"></i> {{ remaining() }} remaining</span>
+  <p-selectButton [options]="filterOptions" [ngModel]="filter()" (ngModelChange)="filter.set($event)" optionLabel="label" optionValue="value"></p-selectButton>
+  <span class="spacer"></span>
+  <button pButton pRipple type="button" label="Clear Completed" icon="pi pi-trash" severity="secondary" (click)="clearCompleted()"></button>
+</div>
+
+<ul class="list" *ngIf="(todos() || []).length > 0; else empty" [@listAnimation]="visibleTodos()">
+  <li class="item" *ngFor="let t of visibleTodos(); let i = index" pDroppable="todo" (onDrop)="onItemDrop(i)" 
+      [@itemAnimation] 
+      [@itemHover]="hoveredId() === t.id ? 'hovered' : 'normal'"
+      (mouseenter)="hoveredId.set(t.id)"
+      (mouseleave)="hoveredId.set(null)">
+    <button pButton pRipple type="button" icon="pi pi-bars" class="drag-handle" pDraggable="todo" [disabled]="filter() !== 'all'" (onDragStart)="onDragStart(i)" aria-label="Drag" pTooltip="Drag to reorder"></button>
+    <p-checkbox [binary]="true" [ngModel]="t.completed" (ngModelChange)="toggle(t.id)" [@checkboxAnimation]></p-checkbox>
+    <p-tag [value]="t.completed ? 'Done' : 'Open'" [severity]="t.completed ? 'success' : 'info'" class="status-tag" [@tagAnimation]></p-tag>
+
+    <ng-container *ngIf="editingId() !== t.id; else editTpl">
+      <span class="title" [class.completed]="t.completed">{{ t.title }}</span>
+      <span class="spacer"></span>
+      <button pButton pRipple type="button" icon="pi pi-pencil" rounded text (click)="beginEdit(t.id, t.title)" aria-label="Edit" pTooltip="Edit"></button>
+      <button pButton pRipple type="button" icon="pi pi-trash" rounded text (click)="confirmRemove(t.id)" aria-label="Remove" pTooltip="Delete"></button>
+    </ng-container>
+
+    <ng-template #editTpl>
+      <div [@editAnimation]>
+        <input
+          pInputText
+          [ngModel]="editTitle()"
+          (ngModelChange)="editTitle.set($event)"
+          (keydown.enter)="commitEdit(t.id)"
+          (keydown.escape)="cancelEdit()"
+          (blur)="commitEdit(t.id)"
+          class="edit-input"
+        />
+        <span class="spacer"></span>
+        <button pButton pRipple type="button" icon="pi pi-check" rounded text (click)="commitEdit(t.id)" aria-label="Save"></button>
+        <button pButton pRipple type="button" icon="pi pi-times" rounded text (click)="cancelEdit()" aria-label="Cancel"></button>
+      </div>
+    </ng-template>
+  </li>
+</ul>
+
+<p-paginator
+  *ngIf="filteredTodos().length > rows"
+  [rows]="rows"
+  [totalRecords]="filteredTodos().length"
+  [first]="first()"
+  (onPageChange)="onPage($event)"
+  [showCurrentPageReport]="true"
+  currentPageReportTemplate="Showing {first} - {last} of {totalRecords}"
+></p-paginator>
+
+<ng-template #empty>
+  <div class="empty">No todos yet. Add one above.</div>
+</ng-template>
